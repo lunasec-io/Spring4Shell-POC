@@ -13,5 +13,13 @@ RUN mvn clean package
 #  Deploy to tomcat
 RUN mv target/helloworld.war /usr/local/tomcat/webapps/
 
+# comment Value in server.xml
+#   <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs"
+#       prefix="localhost_access_log" suffix=".txt"
+#       pattern="%h %l %u %t &quot;%r&quot; %s %b" />
+
+RUN sed -i '163 i <!--' /usr/local/tomcat/conf/server.xml
+RUN sed -i '167 i -->' /usr/local/tomcat/conf/server.xml
+
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
